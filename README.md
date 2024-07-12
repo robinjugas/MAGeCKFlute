@@ -23,11 +23,14 @@ conda install -c anaconda libxml2
 
 ### Installation using R
 ~~~
-> install.packages(c("devtools", "BiocManager"), repos = "https://cloud.r-project.org")
-> BiocManager::install(c("pathview", "biomaRt", "msigdbr", "dendextend", "pheatmap", "sva", "ggrepel", "knitr", "clusterProfiler", "depmap"))
-> BiocManager::install("MAGeCKFlute") # Released version
+# install.packages(c("devtools", "BiocManager"), repos = "https://cloud.r-project.org")
+# BiocManager::install(c("pathview", "biomaRt", "msigdbr", "dendextend", "pheatmap", "sva", "ggrepel", "knitr", "clusterProfiler", "depmap"))
+# BiocManager::install("MAGeCKFlute") # Released version
 # Or
-> devtools::install_github("liulab-dfci/MAGeCKFlute")
+# devtools::install_github("liulab-dfci/MAGeCKFlute")
+
+# OR
+> devtools::install_github("robinjugas/MAGeCKFlute")
 ~~~
 
 ## Documentation
