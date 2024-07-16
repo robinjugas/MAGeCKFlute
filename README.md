@@ -30,7 +30,7 @@ conda install -c anaconda libxml2
 # devtools::install_github("liulab-dfci/MAGeCKFlute")
 
 # OR
-> devtools::install_github("robinjugas/MAGeCKFlute")
+> devtools::install_github("robinjugas/MAGeCKFlute", force = TRUE)
 ~~~
 
 ## Documentation
