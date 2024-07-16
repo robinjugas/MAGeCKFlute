@@ -42,7 +42,8 @@ Imports: Biobase,
          pathview,          
          enrichplot,
          msigdbr,
-         depmap
+         depmap,
+         openxlsx
 Suggests: biomaRt, 
           BiocStyle, 
           dendextend, 
