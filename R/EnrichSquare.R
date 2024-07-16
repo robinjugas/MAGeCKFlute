@@ -229,145 +229,145 @@ EnrichSquare <- function(beta, id = "GeneID", keytype = "Entrez",
     if(!is.null(enrich1) && nrow(enrich1@result)>0){
       write.table(kegg1$enrichRes, file.path(out.dir,paste0("Group1_kegg_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(kegg1$gridPlot, filename=file.path(out.dir,paste0("Group1_kegg_", filename,".png")),
+      ggsave(kegg1$gridPlot, filename=file.path(out.dir,paste0("Group1_kegg_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(reactome1$enrichRes, file.path(out.dir,paste0("Group1_reactome_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(reactome1$gridPlot, filename=file.path(out.dir,paste0("Group1_reactome_", filename,".png")),
+      ggsave(reactome1$gridPlot, filename=file.path(out.dir,paste0("Group1_reactome_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(gobp1$enrichRes, file.path(out.dir,paste0("Group1_gobp_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(gobp1$gridPlot, filename=file.path(out.dir,paste0("Group1_gobp_", filename,".png")),
+      ggsave(gobp1$gridPlot, filename=file.path(out.dir,paste0("Group1_gobp_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(complex1$enrichRes, file.path(out.dir,paste0("Group1_complex_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(complex1$gridPlot, filename=file.path(out.dir,paste0("Group1_complex_", filename,".png")),
+      ggsave(complex1$gridPlot, filename=file.path(out.dir,paste0("Group1_complex_", filename,".pdf")),
              units = "in", width=6.5, height=4)
     }
     if(!is.null(enrich2) && nrow(enrich2@result)>0){
       write.table(kegg2$enrichRes, file.path(out.dir,paste0("Group2_kegg_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(kegg2$gridPlot, filename=file.path(out.dir,paste0("Group2_kegg_", filename,".png")),
+      ggsave(kegg2$gridPlot, filename=file.path(out.dir,paste0("Group2_kegg_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(reactome2$enrichRes, file.path(out.dir,paste0("Group2_reactome_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(reactome2$gridPlot, filename=file.path(out.dir,paste0("Group2_reactome_", filename,".png")),
+      ggsave(reactome2$gridPlot, filename=file.path(out.dir,paste0("Group2_reactome_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(gobp2$enrichRes, file.path(out.dir,paste0("Group2_gobp_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(gobp2$gridPlot, filename=file.path(out.dir,paste0("Group2_gobp_", filename,".png")),
+      ggsave(gobp2$gridPlot, filename=file.path(out.dir,paste0("Group2_gobp_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(complex2$enrichRes, file.path(out.dir,paste0("Group2_complex_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(complex2$gridPlot, filename=file.path(out.dir,paste0("Group2_complex_", filename,".png")),
+      ggsave(complex2$gridPlot, filename=file.path(out.dir,paste0("Group2_complex_", filename,".pdf")),
              units = "in", width=6.5, height=4)
     }
     if(!is.null(enrich3) && nrow(enrich3@result)>0){
       write.table(kegg3$enrichRes, file.path(out.dir,paste0("Group3_kegg_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(kegg3$gridPlot, filename=file.path(out.dir,paste0("Group3_kegg_", filename,".png")),
+      ggsave(kegg3$gridPlot, filename=file.path(out.dir,paste0("Group3_kegg_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(reactome3$enrichRes, file.path(out.dir,paste0("Group3_reactome_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(reactome3$gridPlot, filename=file.path(out.dir,paste0("Group3_reactome_", filename,".png")),
+      ggsave(reactome3$gridPlot, filename=file.path(out.dir,paste0("Group3_reactome_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(gobp3$enrichRes, file.path(out.dir,paste0("Group3_gobp_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(gobp3$gridPlot, filename=file.path(out.dir,paste0("Group3_gobp_", filename,".png")),
+      ggsave(gobp3$gridPlot, filename=file.path(out.dir,paste0("Group3_gobp_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(complex3$enrichRes, file.path(out.dir,paste0("Group3_complex_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(complex3$gridPlot, filename=file.path(out.dir,paste0("Group3_complex_", filename,".png")),
+      ggsave(complex3$gridPlot, filename=file.path(out.dir,paste0("Group3_complex_", filename,".pdf")),
              units = "in", width=6.5, height=4)
     }
     if(!is.null(enrich4) && nrow(enrich4@result)>0){
       write.table(kegg4$enrichRes, file.path(out.dir,paste0("Group4_kegg_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(kegg4$gridPlot, filename=file.path(out.dir,paste0("Group4_kegg_", filename,".png")),
+      ggsave(kegg4$gridPlot, filename=file.path(out.dir,paste0("Group4_kegg_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(reactome4$enrichRes, file.path(out.dir,paste0("Group4_reactome_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(reactome4$gridPlot, filename=file.path(out.dir,paste0("Group4_reactome_", filename,".png")),
+      ggsave(reactome4$gridPlot, filename=file.path(out.dir,paste0("Group4_reactome_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(gobp4$enrichRes, file.path(out.dir,paste0("Group4_gobp_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(gobp4$gridPlot, filename=file.path(out.dir,paste0("Group4_gobp_", filename,".png")),
+      ggsave(gobp4$gridPlot, filename=file.path(out.dir,paste0("Group4_gobp_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(complex4$enrichRes, file.path(out.dir,paste0("Group4_complex_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(complex4$gridPlot, filename=file.path(out.dir,paste0("Group4_complex_", filename,".png")),
+      ggsave(complex4$gridPlot, filename=file.path(out.dir,paste0("Group4_complex_", filename,".pdf")),
              units = "in", width=6.5, height=4)
     }
     if(!is.null(enrich13) && nrow(enrich13@result)>0){
       write.table(kegg13$enrichRes, file.path(out.dir,paste0("Group13_kegg_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(kegg13$gridPlot, filename=file.path(out.dir,paste0("Group13_kegg_", filename,".png")),
+      ggsave(kegg13$gridPlot, filename=file.path(out.dir,paste0("Group13_kegg_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(reactome13$enrichRes, file.path(out.dir,paste0("Group13_reactome_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(reactome13$gridPlot, filename=file.path(out.dir,paste0("Group13_reactome_", filename,".png")),
+      ggsave(reactome13$gridPlot, filename=file.path(out.dir,paste0("Group13_reactome_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(gobp13$enrichRes, file.path(out.dir,paste0("Group13_gobp_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(gobp13$gridPlot, filename=file.path(out.dir,paste0("Group13_gobp_", filename,".png")),
+      ggsave(gobp13$gridPlot, filename=file.path(out.dir,paste0("Group13_gobp_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(complex13$enrichRes, file.path(out.dir,paste0("Group13_complex_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(complex13$gridPlot, filename=file.path(out.dir,paste0("Group13_complex_", filename,".png")),
+      ggsave(complex13$gridPlot, filename=file.path(out.dir,paste0("Group13_complex_", filename,".pdf")),
              units = "in", width=6.5, height=4)
     }
     if(!is.null(enrich12) && nrow(enrich12@result)>0){
       write.table(kegg12$enrichRes, file.path(out.dir,paste0("Group12_kegg_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(kegg12$gridPlot, filename=file.path(out.dir,paste0("Group12_kegg_", filename,".png")),
+      ggsave(kegg12$gridPlot, filename=file.path(out.dir,paste0("Group12_kegg_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(reactome12$enrichRes, file.path(out.dir,paste0("Group12_reactome_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(reactome12$gridPlot, filename=file.path(out.dir,paste0("Group12_reactome_", filename,".png")),
+      ggsave(reactome12$gridPlot, filename=file.path(out.dir,paste0("Group12_reactome_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(gobp12$enrichRes, file.path(out.dir,paste0("Group12_gobp_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(gobp12$gridPlot, filename=file.path(out.dir,paste0("Group12_gobp_", filename,".png")),
+      ggsave(gobp12$gridPlot, filename=file.path(out.dir,paste0("Group12_gobp_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(complex12$enrichRes, file.path(out.dir,paste0("Group12_complex_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(complex12$gridPlot, filename=file.path(out.dir,paste0("Group12_complex_", filename,".png")),
+      ggsave(complex12$gridPlot, filename=file.path(out.dir,paste0("Group12_complex_", filename,".pdf")),
              units = "in", width=6.5, height=4)
     }
     if(!is.null(enrich24) && nrow(enrich24@result)>0){
       write.table(kegg24$enrichRes, file.path(out.dir,paste0("Group24_kegg_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(kegg24$gridPlot, filename=file.path(out.dir,paste0("Group24_kegg_", filename,".png")),
+      ggsave(kegg24$gridPlot, filename=file.path(out.dir,paste0("Group24_kegg_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(reactome24$enrichRes, file.path(out.dir,paste0("Group24_reactome_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(reactome24$gridPlot, filename=file.path(out.dir,paste0("Group24_reactome_", filename,".png")),
+      ggsave(reactome24$gridPlot, filename=file.path(out.dir,paste0("Group24_reactome_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(gobp24$enrichRes, file.path(out.dir,paste0("Group24_gobp_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(gobp24$gridPlot, filename=file.path(out.dir,paste0("Group24_gobp_", filename,".png")),
+      ggsave(gobp24$gridPlot, filename=file.path(out.dir,paste0("Group24_gobp_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(complex24$enrichRes, file.path(out.dir,paste0("Group24_complex_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(complex24$gridPlot, filename=file.path(out.dir,paste0("Group24_complex_", filename,".png")),
+      ggsave(complex24$gridPlot, filename=file.path(out.dir,paste0("Group24_complex_", filename,".pdf")),
              units = "in", width=6.5, height=4)
     }
     if(!is.null(enrich34) && nrow(enrich34@result)>0){
       write.table(kegg34$enrichRes, file.path(out.dir,paste0("Group34_kegg_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(kegg34$gridPlot, filename=file.path(out.dir,paste0("Group34_kegg_", filename,".png")),
+      ggsave(kegg34$gridPlot, filename=file.path(out.dir,paste0("Group34_kegg_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(reactome34$enrichRes, file.path(out.dir,paste0("Group34_reactome_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(reactome34$gridPlot, filename=file.path(out.dir,paste0("Group34_reactome_", filename,".png")),
+      ggsave(reactome34$gridPlot, filename=file.path(out.dir,paste0("Group34_reactome_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(gobp34$enrichRes, file.path(out.dir,paste0("Group34_gobp_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(gobp34$gridPlot, filename=file.path(out.dir,paste0("Group34_gobp_", filename,".png")),
+      ggsave(gobp34$gridPlot, filename=file.path(out.dir,paste0("Group34_gobp_", filename,".pdf")),
              units = "in", width=6.5, height=4)
       write.table(complex34$enrichRes, file.path(out.dir,paste0("Group34_complex_",filename,".txt")),
                   sep="\t", row.names = FALSE, col.names = TRUE,quote=FALSE)
-      ggsave(complex34$gridPlot, filename=file.path(out.dir,paste0("Group34_complex_", filename,".png")),
+      ggsave(complex34$gridPlot, filename=file.path(out.dir,paste0("Group34_complex_", filename,".pdf")),
              units = "in", width=6.5, height=4)
     }
   }
