@@ -66,7 +66,7 @@
 #'   FluteMLE(file3, treatname = "Pmel1", ctrlname = "Pmel1_Ctrl", proj = "Pmel1")
 #' }
 #'
-#' @import ggplot2 stats grDevices utils gridExtra grid
+#' @import ggplot2 stats grDevices utils gridExtra grid openxlsx
 #' @export
 
 FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
@@ -80,7 +80,7 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
                      enrich_method = "ORT", proj = NA,
                      width = 10, height = 7, outdir = ".",
                      pathview.top = 4, verbose = TRUE){
-	## Prepare the running environment ##
+  ## Prepare the running environment ##
   {
     message(Sys.time(), " # Create output dir and pdf file...")
     outdir = file.path(outdir, paste0("MAGeCKFlute_", proj))
@@ -88,7 +88,7 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
     output_pdf = paste0("FluteMLE_", proj, "_", norm_method, ".pdf")
     pdf(file.path(outdir, output_pdf), width = width, height = height)
   }
-
+  
   ## Beta Score Preparation ##
   {
     beta = ReadBeta(gene_summary)
@@ -110,16 +110,16 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
       beta$HumanGene = beta$Symbol
       beta$GeneID = beta$EntrezID
     }
-
+    
     message(Sys.time(), " # Transform id to official human gene name ...")
     idx1 = is.na(beta$EntrezID)
     idx2 = !is.na(beta$EntrezID) & duplicated(beta$EntrezID)
     idx = idx1|idx2
     if(sum(idx1)>0) message(sum(idx1), " genes fail to convert into Entrez IDs: ",
-                           paste0(beta$Gene[idx1], collapse = ", "))
+                            paste0(beta$Gene[idx1], collapse = ", "))
     if(sum(idx2)>0) message(sum(idx2), " genes have duplicate Entrez IDs: ",
                             paste0(beta$Gene[idx2], collapse = ", "))
-
+    
     dd = beta[!idx, ]
     if(incorporateDepmap | "Depmap"%in%ctrlname)
       dd = IncorporateDepmap(dd, symbol = "HumanGene", cell_lines = cell_lines,
@@ -133,43 +133,43 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
     if(tolower(norm_method)=="loess")
       dd = NormalizeBeta(dd, id = "HumanGene", samples = c(ctrlname, treatname), method = "loess")
   }
-	## Distribution of beta scores ##
-	{
-	  ## All genes ##
-	  outputDir1 = file.path(outdir, "QC/")
-	  dir.create(outputDir1, showWarnings = FALSE)
-	  idx_distr = c(ctrlname, treatname)
-	  P1 = ViolinView(dd[, idx_distr], ylab = "Beta score", main = "All genes",
-	                  filename = paste0(outputDir1, "ViolinView_all_", norm_method, ".png"))
-	  P2 = DensityView(dd[, idx_distr], xlab = "Beta score", main = "All genes",
-	                   filename = paste0(outputDir1, "DensityView_all_", norm_method, ".png"))
-	  P3 = ConsistencyView(dd, ctrlname, treatname, main = "All genes",
-	                       filename = paste0(outputDir1, "Consistency_all_", norm_method, ".png"))
-	  P4 = MAView(dd, ctrlname, treatname, main = "All genes",
-	              filename = paste0(outputDir1, "MAView_all_", norm_method, ".png"))
-	  gridExtra::grid.arrange(P1, P2, P3, P4, ncol = 2)
-
-	  ## Essential genes ##
-	  Zuber_Essential = readRDS(file.path(system.file("extdata", package = "MAGeCKFlute"),
-	                            "Zuber_Essential.rds"))
-	  if(is.null(posControl))
-	    idx = toupper(dd$HumanGene) %in% toupper(Zuber_Essential$GeneSymbol)
-	  else
-	    idx = toupper(dd$Gene) %in% toupper(posControl)
-
-	  if(sum(idx) > 10){
-	    P1 = ViolinView(dd[idx, idx_distr], ylab = "Essential.B.S.", main = "Essential genes",
-	                    filename = paste0(outputDir1, "ViolinView_posctrl_", norm_method, ".png"))
-	    P2 = DensityView(dd[idx, idx_distr], xlab = "Essential.B.S.", main = "Essential genes",
-	                     filename = paste0(outputDir1, "DensityView_posctrl_", norm_method, ".png"))
-	    P3 = ConsistencyView(dd[idx, ], ctrlname, treatname, main = "Essential genes",
-	                         filename = paste0(outputDir1, "Consistency_posctrl_", norm_method, ".png"))
-	    P4 = MAView(dd[idx, ], ctrlname, treatname, main = "Essential genes",
-	                filename = paste0(outputDir1, "MAView_posctrl_", norm_method, ".png"))
-	    gridExtra::grid.arrange(P1, P2, P3, P4, ncol = 2)
-	  }
-	}
-
+  ## Distribution of beta scores ##
+  {
+    ## All genes ##
+    outputDir1 = file.path(outdir, "QC/")
+    dir.create(outputDir1, showWarnings = FALSE)
+    idx_distr = c(ctrlname, treatname)
+    P1 = ViolinView(dd[, idx_distr], ylab = "Beta score", main = "All genes",
+                    filename = paste0(outputDir1, "ViolinView_all_", norm_method, ".png"))
+    P2 = DensityView(dd[, idx_distr], xlab = "Beta score", main = "All genes",
+                     filename = paste0(outputDir1, "DensityView_all_", norm_method, ".png"))
+    P3 = ConsistencyView(dd, ctrlname, treatname, main = "All genes",
+                         filename = paste0(outputDir1, "Consistency_all_", norm_method, ".png"))
+    P4 = MAView(dd, ctrlname, treatname, main = "All genes",
+                filename = paste0(outputDir1, "MAView_all_", norm_method, ".png"))
+    gridExtra::grid.arrange(P1, P2, P3, P4, ncol = 2)
+    
+    ## Essential genes ##
+    Zuber_Essential = readRDS(file.path(system.file("extdata", package = "MAGeCKFlute"),
+                                        "Zuber_Essential.rds"))
+    if(is.null(posControl))
+      idx = toupper(dd$HumanGene) %in% toupper(Zuber_Essential$GeneSymbol)
+    else
+      idx = toupper(dd$Gene) %in% toupper(posControl)
+    
+    if(sum(idx) > 10){
+      P1 = ViolinView(dd[idx, idx_distr], ylab = "Essential.B.S.", main = "Essential genes",
+                      filename = paste0(outputDir1, "ViolinView_posctrl_", norm_method, ".png"))
+      P2 = DensityView(dd[idx, idx_distr], xlab = "Essential.B.S.", main = "Essential genes",
+                       filename = paste0(outputDir1, "DensityView_posctrl_", norm_method, ".png"))
+      P3 = ConsistencyView(dd[idx, ], ctrlname, treatname, main = "Essential genes",
+                           filename = paste0(outputDir1, "Consistency_posctrl_", norm_method, ".png"))
+      P4 = MAView(dd[idx, ], ctrlname, treatname, main = "Essential genes",
+                  filename = paste0(outputDir1, "MAView_posctrl_", norm_method, ".png"))
+      gridExtra::grid.arrange(P1, P2, P3, P4, ncol = 2)
+    }
+  }
+  
   ## Combine replicates ##
   {
     dd$Control = Biobase::rowMedians(as.matrix(dd[, ctrlname, drop = FALSE]))
@@ -192,123 +192,318 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
     dd$RandomIndex = sample(1:nrow(dd), nrow(dd))
     dd$Gene = dd$Symbol
   }
-
-	## Drug-targeted genes ##
-	{
-	  outputDir2 = file.path(outdir, "Selection/")
-	  dir.create(outputDir2, showWarnings = FALSE)
-
-	  p1 = ScatterView(dd, "Control", "Treatment", groups = c("top", "bottom"),
-	                   groupnames = c("GroupA", "GroupB"), intercept = intercept)
-	  ggsave(paste0(outputDir2, "ScatterView_TreatvsCtrl_", norm_method, ".png"),
-	         p1, width = 4, height = 3)
-	  write.table(p1$data, paste0(outputDir2, "Data_ScatterView_TreatvsCtrl.txt"),
-	              sep = "\t", row.names = FALSE, quote = FALSE)
-	  p2 = ScatterView(dd, x = "Rank", y = "Diff", label = "Symbol",
-	                   groups = c("top", "bottom"), groupnames = c("GroupA", "GroupB"),
-	                   top = top, y_cut = y_cut)
-	  ggsave(paste0(outputDir2, "RankView_Treat-Ctrl_", norm_method, ".png"),
-	         p2, width = 3, height = 5)
-	  p3 = ScatterView(dd[dd$Diff>0, ], x = "RandomIndex", y = "Diff", label = "Symbol",
-	                   y_cut = y_cut, groups = "top", groupnames = c("GroupA"), top = top)
-	  ggsave(paste0(outputDir2, "ScatterView_Treat-Ctrl_Positive_", norm_method, ".png"),
-	         p3, width = 4, height = 3)
-	  p4 = ScatterView(dd[dd$Diff<0, ], x = "RandomIndex", y = "Diff", label = "Symbol",
-	                   y_cut = y_cut, groups = "bottom", groupnames = c("GroupB"), top = top)
-	  ggsave(paste0(outputDir2, "ScatterView_Treat-Ctrl_Negative_", norm_method, ".png"),
-	         p4, width = 4, height = 3)
-
-	  gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2)
-	}
-
-	## Enrichment analysis of negative and positive selected genes ##
-	{
-	  outputDir3 = file.path(outdir, "Enrichment/")
-	  outputDir4 = file.path(outdir, "PathwayView/")
-	  dir.create(outputDir3, showWarnings=FALSE)
-	  dir.create(outputDir4, showWarnings=FALSE)
-
-	  E1 = EnrichAB(p1$data, enrich_method = enrich_method,
-	                organism = organism, limit = limit, top = top,
-	                filename = norm_method, out.dir = outputDir3)
-	  # EnrichedView
-	  gridExtra::grid.arrange(E1$keggA$gridPlot, E1$reactomeA$gridPlot, E1$gobpA$gridPlot, E1$complexA$gridPlot, ncol = 2)
-	  gridExtra::grid.arrange(E1$keggB$gridPlot, E1$reactomeB$gridPlot, E1$gobpB$gridPlot, E1$complexB$gridPlot, ncol = 2)
-
-	  # Pathway view for top 4 pathway
-	  if(!is.null(E1$keggA$enrichRes) && nrow(E1$keggA$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$keggA$enrichRes$ID),
-	                    top = pathview.top, ncol = 2, title="Group A",
-	                    organism=organism, output=outputDir4)
-	  if(!is.null(E1$keggB$enrichRes) && nrow(E1$keggB$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$keggB$enrichRes$ID),
-	                    top = pathview.top, ncol = 2,
-	                    title="Group B", organism=organism,
-	                    output=outputDir4)
+  
+  ## Drug-targeted genes ##
+  {
+    outputDir2 = file.path(outdir, "Selection/")
+    dir.create(outputDir2, showWarnings = FALSE)
+    
+    p1 = ScatterView(dd, "Control", "Treatment", groups = c("top", "bottom"),
+                     groupnames = c("GroupA", "GroupB"), intercept = intercept)
+    ggsave(paste0(outputDir2, "ScatterView_TreatvsCtrl_", norm_method, ".png"),
+           p1, width = 4, height = 3)
+    write.table(p1$data, paste0(outputDir2, "Data_ScatterView_TreatvsCtrl.txt"),
+                sep = "\t", row.names = FALSE, quote = FALSE)
+    p2 = ScatterView(dd, x = "Rank", y = "Diff", label = "Symbol",
+                     groups = c("top", "bottom"), groupnames = c("GroupA", "GroupB"),
+                     top = top, y_cut = y_cut)
+    ggsave(paste0(outputDir2, "RankView_Treat-Ctrl_", norm_method, ".png"),
+           p2, width = 3, height = 5)
+    p3 = ScatterView(dd[dd$Diff>0, ], x = "RandomIndex", y = "Diff", label = "Symbol",
+                     y_cut = y_cut, groups = "top", groupnames = c("GroupA"), top = top)
+    ggsave(paste0(outputDir2, "ScatterView_Treat-Ctrl_Positive_", norm_method, ".png"),
+           p3, width = 4, height = 3)
+    p4 = ScatterView(dd[dd$Diff<0, ], x = "RandomIndex", y = "Diff", label = "Symbol",
+                     y_cut = y_cut, groups = "bottom", groupnames = c("GroupB"), top = top)
+    ggsave(paste0(outputDir2, "ScatterView_Treat-Ctrl_Negative_", norm_method, ".png"),
+           p4, width = 4, height = 3)
+    
+    gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2)
   }
-
-	## Nine-squares ##
-	{
-	  p1 = ScatterView(dd, x = "Control", y = "Treatment", label = "Symbol",
-	                   groups = c("midleft", "topcenter", "midright", "bottomcenter"),
-	                   groupnames = c("Group1", "Group2", "Group3", "Group4"),
-	                   top = top, display_cut = TRUE,
-	                   x_cut = x_cut, y_cut = y_cut, intercept = intercept)
-	  ggsave(paste0(outputDir2, "SquareView_", norm_method, ".png"), p1, width = 5, height = 4)
-	  write.table(p1$data, paste0(outputDir2, proj, "squareview_data.txt"),
-	              sep = "\t", row.names = FALSE, quote = FALSE)
-	  gridExtra::grid.arrange(p1, ncol = 1)
-	}
-
-	## Nine-Square grouped gene enrichment ##
-	{
-	  E1 = EnrichSquare(p1$data, id = "GeneID", keytype = "entrez",
-	                    x = "Control", y = "Treatment", top = top,
-	                    enrich_method = enrich_method, limit = limit,
-	                    filename=norm_method, out.dir=outputDir3)
+  
+  ## Enrichment analysis of negative and positive selected genes ##
+  {
+    outputDir3 = file.path(outdir, "Enrichment/")
+    outputDir4 = file.path(outdir, "PathwayView/")
+    dir.create(outputDir3, showWarnings=FALSE)
+    dir.create(outputDir4, showWarnings=FALSE)
+    
+    E1 = EnrichAB(p1$data, enrich_method = enrich_method,
+                  organism = organism, limit = limit, top = top,
+                  filename = norm_method, out.dir = outputDir3)
+    # EnrichedView
+    gridExtra::grid.arrange(E1$keggA$gridPlot, E1$reactomeA$gridPlot, E1$gobpA$gridPlot, E1$complexA$gridPlot, ncol = 2)
+    gridExtra::grid.arrange(E1$keggB$gridPlot, E1$reactomeB$gridPlot, E1$gobpB$gridPlot, E1$complexB$gridPlot, ncol = 2)
+    
+    # Pathway view for top 4 pathway
+    if(!is.null(E1$keggA$enrichRes) && nrow(E1$keggA$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$keggA$enrichRes$ID),
+                      top = pathview.top, ncol = 2, title="Group A",
+                      organism=organism, output=outputDir4)
+    if(!is.null(E1$keggB$enrichRes) && nrow(E1$keggB$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$keggB$enrichRes$ID),
+                      top = pathview.top, ncol = 2,
+                      title="Group B", organism=organism,
+                      output=outputDir4)
+  }
+  
+  ## Nine-squares ##
+  {
+    p1 = ScatterView(dd, x = "Control", y = "Treatment", label = "Symbol",
+                     groups = c("midleft", "topcenter", "midright", "bottomcenter"),
+                     groupnames = c("Group1", "Group2", "Group3", "Group4"),
+                     top = top, display_cut = TRUE,
+                     x_cut = x_cut, y_cut = y_cut, intercept = intercept)
+    ggsave(paste0(outputDir2, "SquareView_", norm_method, ".png"), p1, width = 5, height = 4)
+    write.table(p1$data, paste0(outputDir2, proj, "squareview_data.txt"),
+                sep = "\t", row.names = FALSE, quote = FALSE)
+    gridExtra::grid.arrange(p1, ncol = 1)
+  }
+  
+  ## Nine-Square grouped gene enrichment ##
+  {
+    E1 = EnrichSquare(p1$data, id = "GeneID", keytype = "entrez",
+                      x = "Control", y = "Treatment", top = top,
+                      enrich_method = enrich_method, limit = limit,
+                      filename=norm_method, out.dir=outputDir3)
     # EnrichView
-	  gridExtra::grid.arrange(E1$kegg1$gridPlot, E1$reactome1$gridPlot, E1$gobp1$gridPlot, E1$complex1$gridPlot, ncol = 2)
-	  gridExtra::grid.arrange(E1$kegg2$gridPlot, E1$reactome2$gridPlot, E1$gobp2$gridPlot, E1$complex2$gridPlot, ncol = 2)
-	  gridExtra::grid.arrange(E1$kegg3$gridPlot, E1$reactome3$gridPlot, E1$gobp3$gridPlot, E1$complex3$gridPlot, ncol = 2)
-	  gridExtra::grid.arrange(E1$kegg4$gridPlot, E1$reactome4$gridPlot, E1$gobp4$gridPlot, E1$complex4$gridPlot, ncol = 2)
-	  gridExtra::grid.arrange(E1$kegg12$gridPlot, E1$reactome12$gridPlot, E1$gobp12$gridPlot, E1$complex12$gridPlot, ncol = 2)
-	  gridExtra::grid.arrange(E1$kegg13$gridPlot, E1$reactome13$gridPlot, E1$gobp13$gridPlot, E1$complex13$gridPlot, ncol = 2)
-	  gridExtra::grid.arrange(E1$kegg24$gridPlot, E1$reactome24$gridPlot, E1$gobp24$gridPlot, E1$complex24$gridPlot, ncol = 2)
-	  gridExtra::grid.arrange(E1$kegg34$gridPlot, E1$reactome34$gridPlot, E1$gobp34$gridPlot, E1$complex34$gridPlot, ncol = 2)
-
-	  # PathwayView
-	  if(!is.null(E1$kegg1$enrichRes) && nrow(E1$kegg1$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$kegg1$enrichRes$ID), ncol = 2,
-	                    top = pathview.top, title = "Group 1", organism=organism,
-	                    output=outputDir4)
-	  if(!is.null(E1$kegg2$enrichRes) && nrow(E1$kegg2$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$kegg2$enrichRes$ID), ncol = 2,
-	                    top = pathview.top, title = "Group 2",
-	                    organism=organism,output=outputDir4)
-	  if(!is.null(E1$kegg3$enrichRes) && nrow(E1$kegg3$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$kegg3$enrichRes$ID), ncol = 2,
-	                    top = pathview.top, title = "Group 3",
-	                    organism=organism, output=outputDir4)
-	  if(!is.null(E1$kegg4$enrichRes) && nrow(E1$kegg4$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$kegg4$enrichRes$ID), ncol = 2,
-	                    title = "Group 4", organism = organism,
-	                    top = pathview.top, output=outputDir4)
-	  if(!is.null(E1$kegg12$enrichRes) && nrow(E1$kegg12$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$kegg12$enrichRes$ID), ncol = 2,
-	                    title = "Group 1 & Group 2", organism=organism,
-	                    top = pathview.top, output=outputDir4)
-	  if(!is.null(E1$kegg13$enrichRes) && nrow(E1$kegg13$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$kegg13$enrichRes$ID), ncol = 2,
-	                    title = "Group 1 & Group 3", organism=organism,
-	                    top = pathview.top, output=outputDir4)
-	  if(!is.null(E1$kegg24$enrichRes) && nrow(E1$kegg24$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$kegg24$enrichRes$ID), ncol = 2,
-	                    title = "Group 2 & Group 4", organism=organism,
-	                    top = pathview.top, output=outputDir4)
-	  if(!is.null(E1$kegg34$enrichRes) && nrow(E1$kegg34$enrichRes)>0)
-	    arrangePathview(dd, gsub("KEGG_", "", E1$kegg34$enrichRes$ID), ncol = 2,
-	                    title = "Group 3 & Group 4", organism=organism,
-	                    top = pathview.top, output=outputDir4)
+    gridExtra::grid.arrange(E1$kegg1$gridPlot, E1$reactome1$gridPlot, E1$gobp1$gridPlot, E1$complex1$gridPlot, ncol = 2)
+    gridExtra::grid.arrange(E1$kegg2$gridPlot, E1$reactome2$gridPlot, E1$gobp2$gridPlot, E1$complex2$gridPlot, ncol = 2)
+    gridExtra::grid.arrange(E1$kegg3$gridPlot, E1$reactome3$gridPlot, E1$gobp3$gridPlot, E1$complex3$gridPlot, ncol = 2)
+    gridExtra::grid.arrange(E1$kegg4$gridPlot, E1$reactome4$gridPlot, E1$gobp4$gridPlot, E1$complex4$gridPlot, ncol = 2)
+    gridExtra::grid.arrange(E1$kegg12$gridPlot, E1$reactome12$gridPlot, E1$gobp12$gridPlot, E1$complex12$gridPlot, ncol = 2)
+    gridExtra::grid.arrange(E1$kegg13$gridPlot, E1$reactome13$gridPlot, E1$gobp13$gridPlot, E1$complex13$gridPlot, ncol = 2)
+    gridExtra::grid.arrange(E1$kegg24$gridPlot, E1$reactome24$gridPlot, E1$gobp24$gridPlot, E1$complex24$gridPlot, ncol = 2)
+    gridExtra::grid.arrange(E1$kegg34$gridPlot, E1$reactome34$gridPlot, E1$gobp34$gridPlot, E1$complex34$gridPlot, ncol = 2)
+    
+    # PathwayView
+    if(!is.null(E1$kegg1$enrichRes) && nrow(E1$kegg1$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$kegg1$enrichRes$ID), ncol = 2,
+                      top = pathview.top, title = "Group 1", organism=organism,
+                      output=outputDir4)
+    if(!is.null(E1$kegg2$enrichRes) && nrow(E1$kegg2$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$kegg2$enrichRes$ID), ncol = 2,
+                      top = pathview.top, title = "Group 2",
+                      organism=organism,output=outputDir4)
+    if(!is.null(E1$kegg3$enrichRes) && nrow(E1$kegg3$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$kegg3$enrichRes$ID), ncol = 2,
+                      top = pathview.top, title = "Group 3",
+                      organism=organism, output=outputDir4)
+    if(!is.null(E1$kegg4$enrichRes) && nrow(E1$kegg4$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$kegg4$enrichRes$ID), ncol = 2,
+                      title = "Group 4", organism = organism,
+                      top = pathview.top, output=outputDir4)
+    if(!is.null(E1$kegg12$enrichRes) && nrow(E1$kegg12$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$kegg12$enrichRes$ID), ncol = 2,
+                      title = "Group 1 & Group 2", organism=organism,
+                      top = pathview.top, output=outputDir4)
+    if(!is.null(E1$kegg13$enrichRes) && nrow(E1$kegg13$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$kegg13$enrichRes$ID), ncol = 2,
+                      title = "Group 1 & Group 3", organism=organism,
+                      top = pathview.top, output=outputDir4)
+    if(!is.null(E1$kegg24$enrichRes) && nrow(E1$kegg24$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$kegg24$enrichRes$ID), ncol = 2,
+                      title = "Group 2 & Group 4", organism=organism,
+                      top = pathview.top, output=outputDir4)
+    if(!is.null(E1$kegg34$enrichRes) && nrow(E1$kegg34$enrichRes)>0)
+      arrangePathview(dd, gsub("KEGG_", "", E1$kegg34$enrichRes$ID), ncol = 2,
+                      title = "Group 3 & Group 4", organism=organism,
+                      top = pathview.top, output=outputDir4)
   }
-	dev.off()
+  dev.off()
+  
+  ##############################################################################
+  ## EXCEL
+  # write Excel spreasheets for each enrichment category
+  {
+    wb <- openxlsx::createWorkbook()
+    
+    # 1
+    subsquare <- "midleft"
+    if (!is.null(E1$kegg1$enrichRes) && nrow(E1$kegg1$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("KEGG %s",subsquare))
+      x <- E1$kegg1$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("KEGG %s",subsquare), x)
+    }
+    if (!is.null(E1$gobp1$enrichRes) && nrow(E1$gobp1$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("GOBP %s",subsquare))
+      x <- E1$gobp1$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("GOBP %s",subsquare), x)
+    }
+    if (!is.null(E1$reactome1$enrichRes) && nrow(E1$reactome1$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("REACTOME %s",subsquare))
+      x <- E1$reactome1$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("REACTOME %s",subsquare), x)
+    }
+    if (!is.null(E1$complex1$enrichRes) && nrow(E1$complex1$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("Complex %s",subsquare))
+      x <- E1$complex1$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("Complex %s",subsquare), x)
+    }
+    
+    # 2
+    subsquare <- "topcenter"
+    if (!is.null(E1$kegg2$enrichRes) && nrow(E1$kegg2$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("KEGG %s",subsquare))
+      x <- E1$kegg2$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("KEGG %s",subsquare), x)
+    }
+    if (!is.null(E1$gobp2$enrichRes) && nrow(E1$gobp2$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("GOBP %s",subsquare))
+      x <- E1$gobp2$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("GOBP %s",subsquare), x)
+    }
+    if (!is.null(E1$reactome2$enrichRes) && nrow(E1$reactome2$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("REACTOME %s",subsquare))
+      x <- E1$reactome2$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("REACTOME %s",subsquare), x)
+    }
+    if (!is.null(E1$complex2$enrichRes) && nrow(E1$complex2$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("Complex %s",subsquare))
+      x <- E1$complex2$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("Complex %s",subsquare), x)
+    }
+    
+    # 3
+    subsquare <- "midright"
+    if (!is.null(E1$kegg3$enrichRes) && nrow(E1$kegg3$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("KEGG %s",subsquare))
+      x <- E1$kegg3$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("KEGG %s",subsquare), x)
+    }
+    if (!is.null(E1$gobp3$enrichRes) && nrow(E1$gobp3$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("GOBP %s",subsquare))
+      x <- E1$gobp3$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("GOBP %s",subsquare), x)
+    }
+    if (!is.null(E1$reactome3$enrichRes) && nrow(E1$reactome3$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("REACTOME %s",subsquare))
+      x <- E1$reactome3$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("REACTOME %s",subsquare), x)
+    }
+    if (!is.null(E1$complex3$enrichRes) && nrow(E1$complex3$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("Complex %s",subsquare))
+      x <- E1$complex3$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("Complex %s",subsquare), x)
+    }
+    
+    # 4
+    subsquare <- "bottomcenter"
+    if (!is.null(E1$kegg4$enrichRes) && nrow(E1$kegg4$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("KEGG %s",subsquare))
+      x <- E1$kegg4$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("KEGG %s",subsquare), x)
+    }
+    if (!is.null(E1$gobp4$enrichRes) && nrow(E1$gobp4$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("GOBP %s",subsquare))
+      x <- E1$gobp4$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("GOBP %s",subsquare), x)
+    }
+    if (!is.null(E1$reactome4$enrichRes) && nrow(E1$reactome4$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("REACTOME %s",subsquare))
+      x <- E1$reactome4$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("REACTOME %s",subsquare), x)
+    }
+    if (!is.null(E1$complex4$enrichRes) && nrow(E1$complex4$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("Complex %s",subsquare))
+      x <- E1$complex4$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("Complex %s",subsquare), x)
+    }
+    
+    # 12
+    subsquare <- "midleft&topcenter"
+    if (!is.null(E1$kegg12$enrichRes) && nrow(E1$kegg12$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("KEGG %s",subsquare))
+      x <- E1$kegg12$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("KEGG %s",subsquare), x)
+    }
+    if (!is.null(E1$gobp12$enrichRes) && nrow(E1$gobp12$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("GOBP %s",subsquare))
+      x <- E1$gobp12$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("GOBP %s",subsquare), x)
+    }
+    if (!is.null(E1$reactome12$enrichRes) && nrow(E1$reactome12$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("REACTOME %s",subsquare))
+      x <- E1$reactome12$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("REACTOME %s",subsquare), x)
+    }
+    if (!is.null(E1$complex12$enrichRes) && nrow(E1$complex12$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("Complex %s",subsquare))
+      x <- E1$complex12$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("Complex %s",subsquare), x)
+    }
+    
+    # 13
+    subsquare <- "midleft&midright"
+    if (!is.null(E1$kegg13$enrichRes) && nrow(E1$kegg13$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("KEGG %s",subsquare))
+      x <- E1$kegg13$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("KEGG %s",subsquare), x)
+    }
+    if (!is.null(E1$gobp13$enrichRes) && nrow(E1$gobp13$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("GOBP %s",subsquare))
+      x <- E1$gobp13$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("GOBP %s",subsquare), x)
+    }
+    if (!is.null(E1$reactome13$enrichRes) && nrow(E1$reactome13$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("REACTOME %s",subsquare))
+      x <- E1$reactome13$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("REACTOME %s",subsquare), x)
+    }
+    if (!is.null(E1$complex13$enrichRes) && nrow(E1$complex13$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("Complex %s",subsquare))
+      x <- E1$complex13$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("Complex %s",subsquare), x)
+    }
+    
+    # 24
+    subsquare <- "topcenter&botcenter"
+    if (!is.null(E1$kegg24$enrichRes) && nrow(E1$kegg24$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("KEGG %s",subsquare))
+      x <- E1$kegg24$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("KEGG %s",subsquare), x)
+    }
+    if (!is.null(E1$gobp24$enrichRes) && nrow(E1$gobp24$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("GOBP %s",subsquare))
+      x <- E1$gobp24$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("GOBP %s",subsquare), x)
+    }
+    if (!is.null(E1$reactome24$enrichRes) && nrow(E1$reactome24$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("REACTOME %s",subsquare))
+      x <- E1$reactome24$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("REACTOME %s",subsquare), x)
+    }
+    if (!is.null(E1$complex24$enrichRes) && nrow(E1$complex24$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("Complex %s",subsquare))
+      x <- E1$complex24$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("Complex %s",subsquare), x)
+    }
+    
+    # 34
+    subsquare <- "midright&botcenter"
+    if (!is.null(E1$kegg34$enrichRes) && nrow(E1$kegg34$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("KEGG %s",subsquare))
+      x <- E1$kegg34$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("KEGG %s",subsquare), x)
+    }
+    if (!is.null(E1$gobp34$enrichRes) && nrow(E1$gobp34$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("GOBP %s",subsquare))
+      x <- E1$gobp34$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("GOBP %s",subsquare), x)
+    }
+    if (!is.null(E1$reactome34$enrichRes) && nrow(E1$reactome34$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("REACTOME %s",subsquare))
+      x <- E1$reactome34$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("REACTOME %s",subsquare), x)
+    }
+    if (!is.null(E1$complex34$enrichRes) && nrow(E1$complex34$enrichRes) > 0){
+      openxlsx::addWorksheet(wb, sheetName = sprintf("Complex %s",subsquare))
+      x <- E1$complex34$enrichRes
+      openxlsx::writeData(wb, sheet = sprintf("Complex %s",subsquare), x)
+    }
+    
+    # save and close
+    openxlsx::saveWorkbook(wb, paste0(outdir, "/EnrichmentPerSquares",".xlsx"), overwrite = TRUE, returnValue = FALSE)
+  }
+  
 }
