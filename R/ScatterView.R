@@ -75,7 +75,7 @@ ScatterView<-function(data, x = "x", y = "y", label = 0,
                       main = NULL, xlab = x, ylab = y, legend.position = "none", ...){
   requireNamespace("ggplot2", quietly=TRUE) || stop("need ggplot package")
   requireNamespace("ggrepel", quietly=TRUE) || stop("need ggrepel package")
-  options(ggrepel.max.overlaps = 20)
+  options(ggrepel.max.overlaps = Inf)
   data = as.data.frame(data, stringsAsFactors = FALSE)
   data = data[!(is.na(data[,x])|is.na(data[,y])), ]
   ## Add label column in the data frame.
@@ -297,7 +297,7 @@ ScatterView<-function(data, x = "x", y = "y", label = 0,
   }
 
   if(label.top)
-    p = p + ggrepel::geom_text_repel(min.segment.length = unit(0, 'lines'),force = 1, nudge_y = 1, arrow = arrow(type = 'open', length = unit(.2, 'cm'))) #,size=0.75
+    p = p + ggrepel::geom_text_repel(min.segment.length = unit(0, 'lines'),force = 1, nudge_y = 1) #,size=0.75, , arrow = arrow(type = 'open', length = unit(.2, 'cm'))
   if(display_cut){
     if(length(x_cut)>0)
       p = p + geom_vline(xintercept = x_cut,linetype = "dotted")
