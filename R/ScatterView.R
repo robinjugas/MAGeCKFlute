@@ -75,7 +75,7 @@ ScatterView<-function(data, x = "x", y = "y", label = 0,
                       main = NULL, xlab = x, ylab = y, legend.position = "none", ...){
   requireNamespace("ggplot2", quietly=TRUE) || stop("need ggplot package")
   requireNamespace("ggrepel", quietly=TRUE) || stop("need ggrepel package")
-  #options(ggrepel.max.overlaps = Inf)
+  options(ggrepel.max.overlaps = Inf)
   data = as.data.frame(data, stringsAsFactors = FALSE)
   data = data[!(is.na(data[,x])|is.na(data[,y])), ]
   ## Add label column in the data frame.
@@ -307,7 +307,7 @@ ScatterView<-function(data, x = "x", y = "y", label = 0,
       p = p + geom_abline(slope=slope, intercept=intercept, linetype = "dotted")
   }
   p = p + labs(x=xlab, y = ylab, title = main, color = NULL)
-  p = p + theme_bw(base_size = 14)
+  p = p + theme_bw(base_size = 11)
   p = p + theme(plot.title = element_text(hjust = 0.5))
   p = p + theme(legend.position = legend.position)
 
