@@ -75,7 +75,7 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
                      cell_lines = NA, lineages = "All",
                      norm_method = "cell_cycle", posControl = NULL,
                      omitEssential = TRUE,
-                     top = 10, toplabels = NA,
+                     top = 10, toplabels = NULL,
                      scale_cutoff = 2, limit = c(0,200),
                      enrich_method = "ORT", proj = NA,
                      width = 10, height = 7, outdir = ".",
@@ -201,22 +201,22 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
     p1 = ScatterView(dd, "Control", "Treatment", groups = c("top", "bottom"),
                      groupnames = c("GroupA", "GroupB"), intercept = intercept)
     ggsave(paste0(outputDir2, "ScatterView_TreatvsCtrl_", norm_method, ".pdf"),
-           p1, width = 4, height = 3)
+           p1, width = 5, height = 5)
     write.table(p1$data, paste0(outputDir2, "Data_ScatterView_TreatvsCtrl.txt"),
                 sep = "\t", row.names = FALSE, quote = FALSE)
     p2 = ScatterView(dd, x = "Rank", y = "Diff", label = "Symbol",
                      groups = c("top", "bottom"), groupnames = c("GroupA", "GroupB"),
                      top = top, y_cut = y_cut)
     ggsave(paste0(outputDir2, "RankView_Treat-Ctrl_", norm_method, ".pdf"),
-           p2, width = 3, height = 5)
+           p2, width = 5, height = 5)
     p3 = ScatterView(dd[dd$Diff>0, ], x = "RandomIndex", y = "Diff", label = "Symbol",
                      y_cut = y_cut, groups = "top", groupnames = c("GroupA"), top = top)
     ggsave(paste0(outputDir2, "ScatterView_Treat-Ctrl_Positive_", norm_method, ".pdf"),
-           p3, width = 4, height = 3)
+           p3, width = 5, height = 5)
     p4 = ScatterView(dd[dd$Diff<0, ], x = "RandomIndex", y = "Diff", label = "Symbol",
                      y_cut = y_cut, groups = "bottom", groupnames = c("GroupB"), top = top)
     ggsave(paste0(outputDir2, "ScatterView_Treat-Ctrl_Negative_", norm_method, ".pdf"),
-           p4, width = 4, height = 3)
+           p4, width = 5, height = 5)
     
     gridExtra::grid.arrange(p1, p2, p3, p4, ncol = 2)
   }
@@ -252,7 +252,7 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
     p1 = ScatterView(dd, x = "Control", y = "Treatment", label = "Symbol",
                      groups = c("midleft", "topcenter", "midright", "bottomcenter"),
                      groupnames = c("Group1", "Group2", "Group3", "Group4"),
-                     top = top, display_cut = TRUE,
+                     top = top, toplabels = toplabels, display_cut = TRUE,
                      x_cut = x_cut, y_cut = y_cut, intercept = intercept)
     ggsave(paste0(outputDir2, "SquareView_", norm_method, ".pdf"), p1, width = 5, height = 4)
     write.table(p1$data, paste0(outputDir2, proj, "squareview_data.txt"),
