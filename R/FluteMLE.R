@@ -253,7 +253,7 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
                      groups = c("midleft", "topcenter", "midright", "bottomcenter"),
                      groupnames = c("Group1", "Group2", "Group3", "Group4"),
                      top = top, toplabels = toplabels, display_cut = TRUE,
-                     x_cut = x_cut, y_cut = y_cut, intercept = intercept)
+                     x_cut = x_cut, y_cut = y_cut, intercept = intercept,size=0.75)
     ggsave(paste0(outputDir2, "SquareView_", norm_method, ".pdf"), p1, width = 10, height = 10)
     write.table(p1$data, paste0(outputDir2, proj, "squareview_data.txt"),
                 sep = "\t", row.names = FALSE, quote = FALSE)
