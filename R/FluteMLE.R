@@ -140,13 +140,13 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
     dir.create(outputDir1, showWarnings = FALSE)
     idx_distr = c(ctrlname, treatname)
     P1 = ViolinView(dd[, idx_distr], ylab = "Beta score", main = "All genes",
-                    filename = paste0(outputDir1, "ViolinView_all_", norm_method, ".png"))
+                    filename = paste0(outputDir1, "ViolinView_all_", norm_method, ".pdf"))
     P2 = DensityView(dd[, idx_distr], xlab = "Beta score", main = "All genes",
-                     filename = paste0(outputDir1, "DensityView_all_", norm_method, ".png"))
+                     filename = paste0(outputDir1, "DensityView_all_", norm_method, ".pdf"))
     P3 = ConsistencyView(dd, ctrlname, treatname, main = "All genes",
-                         filename = paste0(outputDir1, "Consistency_all_", norm_method, ".png"))
+                         filename = paste0(outputDir1, "Consistency_all_", norm_method, ".pdf"))
     P4 = MAView(dd, ctrlname, treatname, main = "All genes",
-                filename = paste0(outputDir1, "MAView_all_", norm_method, ".png"))
+                filename = paste0(outputDir1, "MAView_all_", norm_method, ".pdf"))
     gridExtra::grid.arrange(P1, P2, P3, P4, ncol = 2)
     
     ## Essential genes ##
