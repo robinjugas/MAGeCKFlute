@@ -75,7 +75,7 @@ ScatterView<-function(data, x = "x", y = "y", label = 0,
                       main = NULL, xlab = x, ylab = y, legend.position = "none", ...){
   requireNamespace("ggplot2", quietly=TRUE) || stop("need ggplot package")
   requireNamespace("ggrepel", quietly=TRUE) || stop("need ggrepel package")
-  options(ggrepel.max.overlaps = Inf)
+  options(ggrepel.max.overlaps = 20)
   data = as.data.frame(data, stringsAsFactors = FALSE)
   data = data[!(is.na(data[,x])|is.na(data[,y])), ]
   ## Add label column in the data frame.
