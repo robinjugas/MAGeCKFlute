@@ -16,7 +16,7 @@
 #' @import depmap
 #' @export
 
-LoadDepmap <- function(){
+LoadDepmap <- function(dependency = -0.5){
   # eh <- ExperimentHub::ExperimentHub()
   # crispr <- eh[["EH2261"]]
   # metadata <- eh[["EH2266"]]
@@ -214,7 +214,7 @@ OmitCommonEssential <- function(dd, symbol = "id",
                                 lineages = "All",
                                 cell_lines = NULL,
                                 dependency = -0.5){
-  depmapDat = LoadDepmap()
+  depmapDat = LoadDepmap(dependency)
   Depmap = depmapDat$Depmap
   sampleinfo = depmapDat$sampleinfo
   sampleinfo$primary_disease = tolower(sampleinfo$primary_disease)
