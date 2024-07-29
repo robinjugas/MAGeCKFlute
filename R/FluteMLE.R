@@ -19,6 +19,7 @@
 #' @param norm_method One of "none", "cell_cycle" (default) or "loess".
 #' @param posControl A character vector, specifying a list of positive control gene symbols.
 #' @param omitEssential Boolean, indicating whether omit common essential genes from the downstream analysis.
+#' @param dependency Decimal for DepMap essential genes cutoff
 #' @param top An integer, specifying the number of top selected genes to be labeled
 #' in rank figure and the number of top pathways to be shown.
 #' @param toplabels A character vector, specifying interested genes to be labeled in rank figure.
