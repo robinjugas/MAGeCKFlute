@@ -241,7 +241,7 @@ OmitCommonEssential <- function(dd, symbol = "id",
     warning("No cell line is selected. Using all cell types instead")
   }
 
-  lethal_genes = Selector(Depmap, -0.5, select = 0.9)$sig
+  lethal_genes = Selector(Depmap, dependency, select = 0.9)$sig #lethal_genes = Selector(Depmap, -0.5, select = 0.9)$sig
   dd = dd[!(dd[,symbol] %in% lethal_genes), ]
   return(dd)
 }
