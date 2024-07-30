@@ -185,7 +185,7 @@ FluteMLE <- function(gene_summary, treatname, ctrlname = "Depmap",
     intercept = c(-CutoffCalling(dd$Diff, scale_cutoff),
                   CutoffCalling(dd$Diff, scale_cutoff))
     if(omitEssential){
-      dd = OmitCommonEssential(dd, symbol = "HumanGene", dependency = dependency)
+      dd = OmitCommonEssential(dd, symbol = "HumanGene", dependency = dependency,lineages = lineages)
       write.table(dd, paste0(outputDir1, proj, "_omitessential_data.txt"),
                   sep = "\t", row.names = FALSE, quote = FALSE)
     }
