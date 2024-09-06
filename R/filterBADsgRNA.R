@@ -7,21 +7,22 @@
 #' @rdname filterBADsgRNA
 #' @aliases filterBADsgRNA
 #'
-#' @param fileCountNormalized A order ranked numeric vector with geneid as names
-#' @param Squareview_table "Entrez", "Ensembl", or "Symbol"
+#' @param fileCountNormalized 
+#' @param Squareview_table 
 #'
 #'
 #' @return DF
 #'
 #' @author Robin Jugas, Matej Jasik
-#'
+#' @import data.table openxlsx
 #' @export
 
 
 filterBADsgRNA <- function(fileCountNormalized, Squareview_table)
 {
   
-  ################################################################################
+  message(Sys.time(), "  Filtering bad sgRNA guides")
+  ##############################################################################
   # CALCULATE GUIDE NUMBERS
   
   CountNormalized <- fread(fileCountNormalized, header = TRUE)

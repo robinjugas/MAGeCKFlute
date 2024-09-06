@@ -68,7 +68,7 @@
 #'   FluteMLE(file3, treatname = "Pmel1", ctrlname = "Pmel1_Ctrl", proj = "Pmel1")
 #' }
 #'
-#' @import ggplot2 stats grDevices utils gridExtra grid openxlsx
+#' @import ggplot2 stats grDevices utils gridExtra grid openxlsx data.table
 #' @export
 
 FluteMLE <- function(gene_summary, count_normalized, treatname, ctrlname = "Depmap",
@@ -267,15 +267,26 @@ FluteMLE <- function(gene_summary, count_normalized, treatname, ctrlname = "Depm
     
     SQUAREVIEW_DF <- p1$data
     # NECHAT NA POZDEJI
-    write.table(p1$data, paste0(outputDir2, proj, "squareview_data.txt"),
-                sep = "\t", row.names = FALSE, quote = FALSE)
+    # write.table(p1$data, paste0(outputDir2, proj, "squareview_data.txt"),
+    #             sep = "\t", row.names = FALSE, quote = FALSE)
     
   }
   
+  ##############################################################################
+  # MODIFIKCACE
   ## filtr_BAD_sgRNA_guides_genes
   SQUAREVIEW_DF <- filterBADsgRNA(count_normalized, SQUAREVIEW_DF)
+
+  ## Read_count_agregate
+  SQUAREVIEW_DF <- ReadCountAgregate(count_normalized, SQUAREVIEW_DF)
+    
+  ## write  
+  write.table(SQUAREVIEW_DF, paste0(outputDir2, proj, "squareview_data.txt"),
+              sep = "\t", row.names = FALSE, quote = FALSE)
   
   
+  ##############################################################################
+  # MODIFIKCACE  
   ## Nine-Square grouped gene enrichment ##
   {
     E1 = EnrichSquare(p1$data, id = "GeneID", keytype = "entrez",
