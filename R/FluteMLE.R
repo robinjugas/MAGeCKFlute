@@ -187,6 +187,9 @@ FluteMLE <- function(gene_summary, count_normalized, treatname, ctrlname = "Depm
                   CutoffCalling(dd$Diff, scale_cutoff))
     if(omitEssential){
       dd = OmitCommonEssential(dd, symbol = "HumanGene", dependency = dependency,lineages = lineages)
+      
+      # MODIFIKACE confidence intervals
+      
       write.table(dd, paste0(outputDir1, proj, "_omitessential_data.txt"),
                   sep = "\t", row.names = FALSE, quote = FALSE)
     }

@@ -42,6 +42,8 @@
 #' @param main Title of the figure.
 #' @param xlab Title of x-axis
 #' @param ylab Title of y-axis.
+#' @param xlim x-axis range
+#' @param ylim y-axis range
 #' @param legend.position Position of legend, "none", "right", "top", "bottom", or
 #' a two-length vector indicating the position.
 #' @param ... Other available parameters in function 'geom_text_repel'.
@@ -72,6 +74,7 @@ ScatterView <-  function (data, x = "x", y = "y", label = 0, model = c("none",
                           group_col = NULL, groupnames = NULL, label.top = TRUE, top = 0, 
                           toplabels = NULL, display_cut = FALSE, color = NULL, shape = 16, 
                           size = 1, alpha = 0.6, main = NULL, xlab = x, ylab = y, 
+                          xlim = NULL, ylim = NULL, 
                           legend.position = "None", ...) 
 {
   requireNamespace("ggplot2", quietly = TRUE) || stop("need ggplot package")
@@ -336,6 +339,8 @@ ScatterView <-  function (data, x = "x", y = "y", label = 0, model = c("none",
   gg = data
   gg = gg[order(gg[, color]), ]
   p = ggplot(gg, aes_string(x, y, label = "Label", color = color))
+  
+  
   if (all(c(shape, size) %in% colnames(gg))) 
     p = p + geom_point(aes_string(shape = shape, size = size), 
                        alpha = alpha)
@@ -346,6 +351,7 @@ ScatterView <-  function (data, x = "x", y = "y", label = 0, model = c("none",
     p = p + geom_point(aes_string(size = size), shape = shape, 
                        alpha = alpha)
   else p = p + geom_point(size = size, shape = shape, alpha = alpha)
+  
   if (color == "group") {
     if (mode(toplabels) != "list") 
       p = p + scale_color_manual(values = mycolour[names(groupnames)], 
@@ -369,6 +375,7 @@ ScatterView <-  function (data, x = "x", y = "y", label = 0, model = c("none",
       p = p + scale_color_brewer(type = "div")
     }
   }
+  
   if (label.top) 
     p = p + ggrepel::geom_text_repel(...)
   if (display_cut) {
@@ -380,9 +387,20 @@ ScatterView <-  function (data, x = "x", y = "y", label = 0, model = c("none",
       p = p + geom_abline(slope = slope, intercept = intercept, 
                           linetype = "dotted")
   }
+  
+  
   p = p + labs(x = xlab, y = ylab, title = main, color = NULL)
   p = p + theme_bw(base_size = 14)
   p = p + theme(plot.title = element_text(hjust = 0.5))
   p = p + theme(legend.position = legend.position)
+  
+  ##############################################################################
+  # MODIFIKCACE  
+  # xlim a ylim xlim = c(-10,10), ylim = c(-10,10)
+  if(!is.null(xlim) & !is.null(ylim)){
+    p = p + xlim + ylim
+  }
+  
+  
   return(p)
 }

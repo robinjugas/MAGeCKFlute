@@ -13,21 +13,17 @@
 #' @return DF
 #'
 #' @author Matej Jasik
-#' @import data.table openxlsx
+#' @import openxlsx
 #' @export
 
 ReadCountAgregate <- function(normalised_count, Squareview_table){
   
-  requireNamespace("openxlsx", quietly = TRUE) || stop("need openxlsx package")
-  
+  # requireNamespace("openxlsx", quietly = TRUE) || stop("need openxlsx package")
   message(Sys.time(), "  Collapsing sgRNA counts into gene cluster")
   
   ##############################################################################
-  # File path to your text file
-  Read_file <- normalised_count
-  
   # Read data from the file
-  df <- fread(Read_file, header = TRUE, sep = "\t")
+  df <- read.table(normalised_count, header = TRUE, sep = "\t")
   # Filter out rows containing the string "Non-Target-Control"
   df <- df[!grepl("Non-Targeting-Control", df$Gene),]
   
@@ -81,40 +77,33 @@ ReadCountAgregate <- function(normalised_count, Squareview_table){
   # Get aggregated result
   aggregated_df <- aggregate_values(df)
   
+  # merge with Squareview_table
+  Squareview_data <- merge(Squareview_table, aggregated_df, by = "Gene")
+
   ##############################################################################
   # Write aggregated data to Excel file
-  write.xlsx(aggregated_df, file = "aggregated_data_round.xlsx")
-  
-  
-  # Read the original aggregated data from Excel
-  original_data <- read.xlsx("aggregated_data_round.xlsx")
-  
-  # Read the data from the Read_file
-  new_data <- read.table(Read_file, header = TRUE, sep = "\t")
-  
-  # Filter out rows containing "Non-Targeting-Control"
-  filtered_data <- new_data[grepl("Non-Targeting-Control", new_data$Gene), ]
-  
-  # Round numeric values in filtered_data
-  filtered_data <- round_values(filtered_data)
-  
-  # Remove the second column (assuming it's named "Condition")
-  filtered_data <- filtered_data[, -2]
-  
-  # Ensure that filtered_data has the same columns as original_data
-  if (ncol(filtered_data) != ncol(original_data)) {
-    stop("Number of columns in filtered_data does not match original_data.")
-  }
-  
-  # Match column names of filtered_data with original_data
-  colnames(filtered_data) <- colnames(original_data)
-  
-  # Append the filtered rows to the original data
-  updated_data <- rbind(original_data, filtered_data)
-  
-  # Write the updated data back to Excel
-  write.xlsx(updated_data, file = "aggregated_data_round.xlsx")
+  # write.xlsx(aggregated_df, file = "aggregated_data_round.xlsx")
+  # # Read the original aggregated data from Excel
+  # original_data <- read.xlsx("aggregated_data_round.xlsx")
+  # # Read the data from the Read_file
+  # new_data <- read.table(normalised_count, header = TRUE, sep = "\t")
+  # # Filter out rows containing "Non-Targeting-Control"
+  # filtered_data <- new_data[grepl("Non-Targeting-Control", new_data$Gene), ]
+  # # Round numeric values in filtered_data
+  # filtered_data <- round_values(filtered_data)
+  # # Remove the second column (assuming it's named "Condition")
+  # filtered_data <- filtered_data[, -2]
+  # # Ensure that filtered_data has the same columns as original_data
+  # if (ncol(filtered_data) != ncol(original_data)) {
+  #   stop("Number of columns in filtered_data does not match original_data.")
+  # }
+  # # Match column names of filtered_data with original_data
+  # colnames(filtered_data) <- colnames(original_data)
+  # # Append the filtered rows to the original data
+  # updated_data <- rbind(original_data, filtered_data)
+  # # Write the updated data back to Excel
+  # write.xlsx(updated_data, file = "aggregated_data_round.xlsx")
   message(Sys.time(), "  Done")
   
-  
+  return(Squareview_data)
 }
