@@ -33,7 +33,9 @@ ScatterView(
   main = NULL,
   xlab = x,
   ylab = y,
-  legend.position = "none",
+  xlim = NULL,
+  ylim = NULL,
+  legend.position = "None",
   ...
 )
 }
@@ -93,6 +95,10 @@ ScatterView(
 \item{xlab}{Title of x-axis}
 
 \item{ylab}{Title of y-axis.}
+
+\item{xlim}{x-axis range}
+
+\item{ylim}{y-axis range}
 
 \item{legend.position}{Position of legend, "none", "right", "top", "bottom", or
 a two-length vector indicating the position.}

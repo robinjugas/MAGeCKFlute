@@ -32,7 +32,7 @@ Omit common essential genes based on depmap data
 }
 \examples{
 \dontrun{
-  file1 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+  file1 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                     "testdata/rra.gene_summary.txt")
   gdata = ReadRRA(file1)
   dim(gdata)

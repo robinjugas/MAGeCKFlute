@@ -43,7 +43,7 @@
 #' @seealso \code{\link{ScatterView}}
 #'
 #' @examples
-#' file3 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+#' file3 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 #' "testdata/mle.gene_summary.txt")
 #' dd = ReadBeta(file3)
 #' SquareView(dd, ctrlname = "Pmel1_Ctrl", treatname = "Pmel1", label = "Gene")

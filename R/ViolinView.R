@@ -24,7 +24,7 @@
 #' @seealso \code{\link{DensityView}}
 #'
 #' @examples
-#' file3 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+#' file3 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 #' "testdata/mle.gene_summary.txt")
 #' dd = ReadBeta(file3)
 #' ViolinView(dd[, -1])

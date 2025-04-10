@@ -29,7 +29,7 @@
 #' @author Wubing Zhang
 #'
 #' @examples
-#' file3 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+#' file3 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 #' "testdata/mle.gene_summary.txt")
 #' dd = ReadBeta(file3)
 #' \dontrun{
@@ -55,7 +55,7 @@ NormalizeBeta <- function(beta, id = 1, method="cell_cycle",
       # depmapDat = LoadDepmap()
       # Depmap = depmapDat$Depmap
       # posControl = Selector(Depmap, -0.5, select = 0.9)$sig
-      posControl = readRDS(file.path(system.file("extdata", package = "MAGeCKFlute"),
+      posControl = readRDS(file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                                      "Zuber_Essential.rds"))$GeneSymbol
       if(org!="hsa"){
         posControl = TransGeneID(posControl, fromType = "Symbol", toType = "Symbol",
@@ -63,7 +63,7 @@ NormalizeBeta <- function(beta, id = 1, method="cell_cycle",
         posControl = na.omit(posControl)
       }
       # Zuber_Essential = readRDS(file.path(system.file("extdata", package =
-      # "MAGeCKFlute"), "Zuber_Essential.rds"))
+      # "MAGeCKFluteRadioScreen"), "Zuber_Essential.rds"))
       # posControl=Zuber_Essential$GeneSymbol
     }
     idx = which(toupper(ids) %in% toupper(posControl))
@@ -112,7 +112,7 @@ NormalizeBeta <- function(beta, id = 1, method="cell_cycle",
 #' @seealso \code{\link{NormalizeBeta}}
 #'
 #' @examples
-#' file3 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+#' file3 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 #' "testdata/mle.gene_summary.txt")
 #' dd = ReadBeta(file3)
 #' beta_loess = normalize.loess(dd[,-1])

@@ -50,7 +50,7 @@ gsGetter <- function(gmtpath = NULL, type = "All", limit = c(0, Inf),
   }else{
     gene2path = data.frame()
     if("KEGG" %in% type){
-      gsfile = file.path(system.file("extdata", package = "MAGeCKFlute"),
+      gsfile = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                          paste0("kegg.all.entrez.", organism, ".rds"))
       if(!file.exists(gsfile)) retrieve_gs(type = "KEGG", organism=organism)
       tmp = readRDS(gsfile)
@@ -58,7 +58,7 @@ gsGetter <- function(gmtpath = NULL, type = "All", limit = c(0, Inf),
       gene2path = rbind(gene2path, tmp)
     }
     if("REACTOME" %in% type){
-      gsfile = file.path(system.file("extdata", package = "MAGeCKFlute"),
+      gsfile = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                          paste0("reactome.all.entrez.", organism, ".rds"))
       if(!file.exists(gsfile)) retrieve_gs(type = "REACTOME", organism=organism)
       tmp = readRDS(gsfile)
@@ -66,7 +66,7 @@ gsGetter <- function(gmtpath = NULL, type = "All", limit = c(0, Inf),
       gene2path = rbind(gene2path, tmp)
     }
     if("CORUM" %in% type){
-      gsfile = file.path(system.file("extdata", package = "MAGeCKFlute"),
+      gsfile = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                          paste0("corum.all.entrez.", organism, ".rds"))
       if(!file.exists(gsfile)) retrieve_gs(type = "CORUM", organism=organism)
       tmp = readRDS(gsfile)
@@ -74,7 +74,7 @@ gsGetter <- function(gmtpath = NULL, type = "All", limit = c(0, Inf),
       gene2path = rbind(gene2path, tmp)
     }
     if(any(grepl("^GO", type))){
-      gsfile = file.path(system.file("extdata", package = "MAGeCKFlute"),
+      gsfile = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                          paste0("go.all.entrez.", organism, ".rds"))
       if(!file.exists(gsfile)) retrieve_gs(type = "GO", organism=organism)
       go = readRDS(gsfile)
@@ -87,6 +87,11 @@ gsGetter <- function(gmtpath = NULL, type = "All", limit = c(0, Inf),
       if (!requireNamespace("msigdbr", quietly = TRUE)) {
         stop("Package \"msigdbr\" is required. Please install it.", call. = FALSE)
       }
+      if (!requireNamespace("msigdbdf", quietly = TRUE)) {
+        install.packages("msigdbdf", repos = c("https://igordot.r-universe.dev", "https://cloud.r-project.org"))
+        # stop("Package \"msigdbdf\" is required. Please install it.", call. = FALSE)
+      }
+      
       for(i in othertypes){
         category = gsub("_.*", "", i)
         subcat  = NULL
@@ -144,7 +149,7 @@ retrieve_gs <- function(type = c("KEGG", "REACTOME", "CORUM", "GO"), organism = 
     pathways$PathwayName=gsub(" - .*", "", pathways$PathwayName)
     rownames(pathways) = pathways$PathwayID
     gene2path$PathwayName = pathways[gene2path$PathwayID, "PathwayName"]
-    locfname = file.path(system.file("extdata", package = "MAGeCKFlute"),
+    locfname = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                          paste0("kegg.all.entrez.", organism, ".rds"))
     gene2path$PathwayID = paste0("KEGG_", gene2path$PathwayID)
     saveRDS(gene2path, locfname)
@@ -152,7 +157,7 @@ retrieve_gs <- function(type = c("KEGG", "REACTOME", "CORUM", "GO"), organism = 
   if("CORUM" %in% type){ ## Process genesets from CORUM
     message(format(Sys.time(), " Downloading genesets from CORUM ..."))
     base_url = "https://mips.helmholtz-muenchen.de/corum/download/allComplexes.txt.zip"
-    locfname = file.path(system.file("extdata", package = "MAGeCKFlute"), "allComplexes.txt.zip")
+    locfname = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"), "allComplexes.txt.zip")
     download.file(base_url, locfname, quiet = TRUE)
     corum <- read.table(unz(locfname, "allComplexes.txt"), sep = "\t",
                         header = TRUE, quote = "", stringsAsFactors = FALSE)
@@ -171,7 +176,7 @@ retrieve_gs <- function(type = c("KEGG", "REACTOME", "CORUM", "GO"), organism = 
     gene2corum$EntrezID = TransGeneID(gene2corum$EntrezID, "Symbol",
                                       "Entrez", organism = organism)
     gene2corum = na.omit(gene2corum)
-    locfname = file.path(system.file("extdata", package = "MAGeCKFlute"),
+    locfname = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                          paste0("corum.all.entrez.", organism, ".rds"))
     saveRDS(gene2corum, locfname)
   }
@@ -183,14 +188,14 @@ retrieve_gs <- function(type = c("KEGG", "REACTOME", "CORUM", "GO"), organism = 
     gene2path = gene2path[grepl(organism, gene2path$PathwayID, ignore.case = TRUE), ]
     gene2path = gene2path[, c(1,2,4)]
     gene2path$PathwayID = gsub(paste0("R-", toupper(organism), "-"), "REACTOME_", gene2path$PathwayID)
-    locfname = file.path(system.file("extdata", package = "MAGeCKFlute"),
+    locfname = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                          paste0("reactome.all.entrez.", organism, ".rds"))
     saveRDS(gene2path, locfname)
   }
   ## Process genesets from Gene ontology
   if(any(grepl("^GO", type))){
     message(format(Sys.time(), " Downloading genesets from Gene Ontology ..."))
-    tmpfile = file.path(system.file("extdata", package = "MAGeCKFlute"), "gene2go.gz")
+    tmpfile = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"), "gene2go.gz")
     download.file("ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2go.gz", destfile = tmpfile, quiet = TRUE)
     go <- read.table(gzfile(tmpfile), sep = "\t", header = TRUE,
                      stringsAsFactors = FALSE, comment.char = "", quote = "")
@@ -202,7 +207,7 @@ retrieve_gs <- function(type = c("KEGG", "REACTOME", "CORUM", "GO"), organism = 
     go$Category[go$Category=="Component"] = "CC"
     go$Category[go$Category=="Function"] = "MF"
     go$EntrezID = as.character(go$EntrezID)
-    locfname = file.path(system.file("extdata", package = "MAGeCKFlute"),
+    locfname = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                          paste0("go.all.entrez.", organism, ".rds"))
     saveRDS(go, locfname)
   }

@@ -52,7 +52,7 @@ An object created by \code{ggplot}, which can be assigned and further customized
 Draw the score and rank of genes on a scatter plot.
 }
 \examples{
-file1 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+file1 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 "testdata/rra.gene_summary.txt")
 gdata = ReadRRA(file1)
 rankdata = gdata$Score

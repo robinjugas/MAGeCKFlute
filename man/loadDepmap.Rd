@@ -6,7 +6,7 @@
 \alias{LoadDepmap}
 \title{Load processed Depmap data}
 \usage{
-LoadDepmap()
+LoadDepmap(dependency = -0.5)
 }
 \value{
 A list including two elements, one is the Depmap CRISPR data, and the

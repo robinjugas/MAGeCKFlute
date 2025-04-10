@@ -31,7 +31,7 @@ A data frame with correlation and test p.value.
 Compute the similarity between customized CRISPR screen with Depmap screens
 }
 \examples{
-file1 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+file1 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 "testdata/rra.gene_summary.txt")
 gdata = ReadRRA(file1)
 \dontrun{

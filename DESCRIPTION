@@ -42,6 +42,7 @@ Imports: Biobase,
          pathview,          
          enrichplot,
          msigdbr,
+         msigdbdf,
          depmap,
          openxlsx
 Suggests: biomaRt, 
@@ -67,4 +68,4 @@ biocViews: FunctionalGenomics,
            GeneTarget, 
            KEGG
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2

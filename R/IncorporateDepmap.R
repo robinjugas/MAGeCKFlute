@@ -31,7 +31,7 @@ LoadDepmap <- function(dependency = -0.5){
                                   colnames = unique(crispr$gene_name)))
   crispr = as.data.frame(t(crispr))
   # ## Load Depmap data
-  # depmap_rds = file.path(system.file("extdata", package = "MAGeCKFlute"), "Depmap.rds")
+  # depmap_rds = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"), "Depmap.rds")
   # if(file.exists(depmap_rds)){
   #   Depmap = readRDS(depmap_rds)
   # }else{
@@ -40,7 +40,7 @@ LoadDepmap <- function(dependency = -0.5){
   #   rownames(Depmap) = gsub(" .*", "", rownames(Depmap))
   #   saveRDS(Depmap, depmap_rds)
   # }
-  # meta_rds = file.path(system.file("extdata", package = "MAGeCKFlute"), "Depmap_sample_info.rds")
+  # meta_rds = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"), "Depmap_sample_info.rds")
   # if(file.exists(meta_rds)){
   #   sampleinfo = readRDS(meta_rds)
   # }else{
@@ -67,7 +67,7 @@ LoadDepmap <- function(dependency = -0.5){
 #' @return A data frame with Depmap column (average CERES scores across selected cell lines) attached.
 #'
 #' @examples
-#' file1 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+#' file1 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 #' "testdata/rra.gene_summary.txt")
 #' gdata = ReadRRA(file1)
 #' head(gdata)
@@ -131,7 +131,7 @@ IncorporateDepmap <- function(dd, symbol = "id",
 #' @return A data frame with correlation and test p.value.
 #'
 #' @examples
-#' file1 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+#' file1 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 #' "testdata/rra.gene_summary.txt")
 #' gdata = ReadRRA(file1)
 #' \dontrun{
@@ -200,7 +200,7 @@ ResembleDepmap <- function(dd, symbol = "id", score = "Score", lineages = "All",
 #'
 #' @examples
 #' \dontrun{
-#'   file1 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+#'   file1 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 #'                     "testdata/rra.gene_summary.txt")
 #'   gdata = ReadRRA(file1)
 #'   dim(gdata)

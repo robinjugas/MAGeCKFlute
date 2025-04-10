@@ -45,7 +45,7 @@ A matrix similar as \code{mat}.
 Loess normalization method.
 }
 \examples{
-file3 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+file3 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 "testdata/mle.gene_summary.txt")
 dd = ReadBeta(file3)
 beta_loess = normalize.loess(dd[,-1])

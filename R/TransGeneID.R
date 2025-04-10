@@ -195,7 +195,7 @@ TransGeneID <- function(genes, fromType="Symbol", toType="Entrez",
 getGeneAnn <- function(org = "hsa", update = FALSE){
   options(stringsAsFactors = FALSE)
   #### Read rds file directly ####
-  rdsann = file.path(system.file("extdata", package = "MAGeCKFlute"),
+  rdsann = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                      paste0("GeneID_Annotation_", org, ".rds"))
   if(file.exists(rdsann) & !update) return(readRDS(rdsann))
 
@@ -203,7 +203,7 @@ getGeneAnn <- function(org = "hsa", update = FALSE){
   gzfile = paste0(c("Homo_sapiens", "Bos_taurus", "Canis_lupus_familiaris", "Mus_musculus",
                     "Pan_troglodytes", "Rattus_norvegicus", "Sus_scrofa"), ".gene_info.gz")
   names(gzfile) = c("hsa", "bta", "cfa", "mmu", "ptr", "rno", "ssc")
-  locfname <- file.path(system.file("extdata", package = "MAGeCKFlute"), gzfile[org])
+  locfname <- file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"), gzfile[org])
   if((!file.exists(locfname)) | update){
     ## Download gene information from NCBI ftp server
     refname <- paste0("ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/", gzfile[org])
@@ -230,7 +230,7 @@ getGeneAnn <- function(org = "hsa", update = FALSE){
 
   #### HGNC gene annotation ####
   # if(org=="hsa"){
-  #   locfname2 = file.path(system.file("extdata", package = "MAGeCKFlute"), "HGNC_GeneID_annotation.txt.gz")
+  #   locfname2 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"), "HGNC_GeneID_annotation.txt.gz")
   #   if((!file.exists(locfname2)) | update){
   #     ## Download gene information from HGNC
   #     refname <- "ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt"
@@ -257,7 +257,7 @@ getGeneAnn <- function(org = "hsa", update = FALSE){
   # }
 
   #### Ensembl gene annotation ####
-  tmpfile = file.path(system.file("extdata", package = "MAGeCKFlute"), "tmpfile")
+  tmpfile = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"), "tmpfile")
   download.file("ftp://ftp.ensembl.org/pub/", tmpfile, quiet = TRUE)
   tmp = read.table(tmpfile, fill = TRUE, quote = "", stringsAsFactors = FALSE)
   tmp = gsub(".*release-", "", tmp[grepl("release", tmp[, ncol(tmp)]), ncol(tmp)])
@@ -317,7 +317,7 @@ getGeneAnn <- function(org = "hsa", update = FALSE){
   proteome_code = c("up000005640", "UP000009136", "UP000002254",
                     "up000000589", "UP000002277", "UP000002494")
   names(proteome_code) = c("hsa", "bta", "cfa", "mmu", "ptr", "rno")
-  locfname <- file.path(system.file("extdata", package = "MAGeCKFlute"),
+  locfname <- file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                         paste0("uniprot_proteome_", proteome_code[org], ".tab"))
   uniprot_link <- paste0("https://www.uniprot.org/uniprot/?query=proteome:", proteome_code[org],
                          "&format=tab&force=true&columns=id,reviewed,genes,database(Ensembl),database(RefSeq),comment(ALTERNATIVE%20PRODUCTS)&sort=score")
@@ -421,14 +421,14 @@ getGeneAnn <- function(org = "hsa", update = FALSE){
 #'
 getOrtAnn <- function(fromOrg = "mmu", toOrg = "hsa", update = FALSE){
   #### Read rds file directly ####
-  rdsann = file.path(system.file("extdata", package = "MAGeCKFlute"),
+  rdsann = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                      paste0("GeneID_Annotation_", fromOrg, "_", toOrg, ".rds"))
   if(file.exists(rdsann) & !update) return(readRDS(rdsann))
 
   keggcode = c("hsa", "mmu", "rno", "bta", "cfa", "ptr", "ssc")
   names(keggcode) = c("human", "mouse", "rat", "bovine", "canine", "chimp", "pig")
   #### Download data from MGI ####
-  locfname <- file.path(system.file("extdata", package = "MAGeCKFlute"),
+  locfname <- file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                         "HOM_MouseHumanSequence.rpt.gz")
   if((!file.exists(locfname)) | update){
     ## Download gene information
@@ -443,7 +443,7 @@ getOrtAnn <- function(fromOrg = "mmu", toOrg = "hsa", update = FALSE){
   mgi_ann$org = keggcode[mgi_ann$org]
 
   #### Download data from NCBI ####
-  locfname <- file.path(system.file("extdata", package = "MAGeCKFlute"),
+  locfname <- file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                         "homologene.data.gz")
   if((!file.exists(locfname)) | update){
     ## Download gene information

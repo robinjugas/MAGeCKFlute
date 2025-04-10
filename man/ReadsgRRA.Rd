@@ -17,7 +17,7 @@ A data frame.
 Read sgRNA summary in MAGeCK-RRA results
 }
 \examples{
-file2 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+file2 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
                   "testdata/rra.sgrna_summary.txt")
 sgrra = ReadsgRRA(file2)
 head(sgrra)

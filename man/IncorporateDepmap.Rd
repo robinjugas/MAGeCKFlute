@@ -31,7 +31,7 @@ A data frame with Depmap column (average CERES scores across selected cell lines
 Incorporate Depmap screen into analysis
 }
 \examples{
-file1 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+file1 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 "testdata/rra.gene_summary.txt")
 gdata = ReadRRA(file1)
 head(gdata)

@@ -28,7 +28,7 @@
 #'
 #'
 #' @examples
-#' file1 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+#' file1 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 #' "testdata/rra.gene_summary.txt")
 #' gdata = ReadRRA(file1)
 #' rankdata = gdata$Score

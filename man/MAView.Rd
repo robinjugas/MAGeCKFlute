@@ -56,7 +56,7 @@ An object created by \code{ggplot}, which can be assigned and further customized
 MAplot of gene beta scores in Control vs Treatment
 }
 \examples{
-file3 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+file3 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 "testdata/mle.gene_summary.txt")
 dd = ReadBeta(file3)
 MAView(dd, ctrlname = "Pmel1_Ctrl", treatname = "Pmel1")

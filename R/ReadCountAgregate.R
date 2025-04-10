@@ -7,8 +7,8 @@
 #' @rdname ReadCountAgregate
 #' @aliases ReadCountAgregate
 #'
-#' @param normalised_count
-#' @param Squareview_table
+#' @param normalised_count table of normalized counts
+#' @param Squareview_table Squareview table
 #'
 #' @return DF
 #'

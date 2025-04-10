@@ -42,7 +42,7 @@ An object created by \code{ggplot}, which can be assigned and further customized
 View mapping ratio of each sample
 }
 \examples{
-file4 = file.path(system.file("extdata", package = "MAGeCKFlute"),
+file4 = file.path(system.file("extdata", package = "MAGeCKFluteRadioScreen"),
 "testdata/countsummary.txt")
 countsummary = read.delim(file4, check.names = FALSE)
 MapRatesView(countsummary)

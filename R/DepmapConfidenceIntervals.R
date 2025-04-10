@@ -11,7 +11,7 @@
 #' @export
 
 #test
-dd <- gdata_cc
+# dd <- gdata_cc
 ##############################################################################
 
 DepmapConfidenceIntervals <- function(dd){
